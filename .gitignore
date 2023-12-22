@@ -1,0 +1,7 @@
+**/charts/
+.local/
+.task/
+rendered.yaml
+*.pem
+tls.crt
+tls.key

@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+spec:
+  generators:
+  - list:
+      elements:
+      - appName: 01-cert-manager
+        namespace: cert-manager
+      - appName: 02-ingress-nginx
+        namespace: ingress-nginx
+      - appName: 03-argo
+        namespace: argocd
+  template:
+    metadata:
+      name: '{{namespace}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/bmwinstead/home-argo
+        targetRevision: develop
+        path: platform/{{appName}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: false
+        syncOptions:
+        - CreateNamespace=true

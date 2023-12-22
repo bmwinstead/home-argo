@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cert-manager
+
+# Wanted to not use helmChart for this, but cert-manager's manifests
+# are generated from this anyway.
+helmCharts:
+- name: cert-manager
+  releaseName: cert-manager
+  namespace: cert-manager
+  repo: https://charts.jetstack.io/
+  version: 1.13.3
+  valuesInLine: 
+    installCRDs: false
+    extraArgs:
+    - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+    - --dns01-recursive-nameservers-only
+    podDnsPolicy: None
+    podDnsConfig:
+      nameservers:
+      - "1.1.1.1"
+      - "9.9.9.9"
+    global:
+      leaderElection:
+        namespace: cert-manager
+
+resources:
+  - namespace.yaml
+  - https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
+  - stg-letsencrypt-issuer.yaml
+
+generators:
+  - ksops.yaml

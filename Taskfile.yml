@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  certs:
+    desc: |
+      Abuses mkcert to sign a local CA that can be used to issue arbitrary
+      trusted TLS certs for development purposes.
+    dir: platform/01-cert-manager/overlays/local
+    env:
+      CAROOT: .
+    cmds:
+      - mkcert -install
+    status:
+      - test -f rootCA-key.pem
+      - test -f rootCA.pem
+
+  bootstrap:local:
+    deps: [ certs ]
+    desc: Bootstraps a local cluster. Currently hard-tied to orbstack
+    env:
+      AWS_PROFILE: AdministratorAccess
+    cmds:
+      - kustomize build --enable-exec --enable-alpha-plugins ./bootstrap/local | kubectl apply -f -
+

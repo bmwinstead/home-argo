@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: platform/01-cert-manager/overlays/prd
+    repoURL: https://github.com/bmwinstead/home-argo
+    targetRevision: main

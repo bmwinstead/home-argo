@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/part-of: argocd
+data:
+  url: https://argocd.k8s.orb.local
+  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+
+  # Users
+  admin.enabled: "false"
+  accounts.alice: apiKey, login
+  accounts.alice.eanbled: "true"
+
+  # SSO
+  dex.config: |
+    connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: $argocd-sso:dex.github.id
+          clientSecret: $argocd-sso:dex.github.secret
+          orgs:
+          - name: winstead-io
+

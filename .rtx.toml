@@ -1,0 +1,6 @@
+[tools]
+awscli = "2.15.4"
+sops = "3.8.1"
+argocd = "2.9.3"
+helm = "3.13.3"
+mkcert = "1.4.4"

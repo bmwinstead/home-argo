@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../platform/01-cert-manager/overlays/prd
+  - ../../platform/02-ingress-nginx/overlays/prd
+  - ../../platform/03-argo/overlays/prd
+  - ../../platform/04-applications/prd
+
