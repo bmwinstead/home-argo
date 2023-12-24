@@ -7,6 +7,7 @@ metadata:
 data:
   url: https://argocd.k8s.orb.local
   kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+  applicationsetcontroller.enable.new.git.file.globbing: "true"
 
   # Users
   admin.enabled: "false"
