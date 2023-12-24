@@ -12,6 +12,8 @@ spec:
         namespace: ingress-nginx
       - appName: 03-argo
         namespace: argocd
+      - appName: 05-external-dns
+        namespace: external-dns
   template:
     metadata:
       name: '{{namespace}}'
@@ -20,7 +22,7 @@ spec:
       source:
         repoURL: https://github.com/bmwinstead/home-argo
         targetRevision: develop
-        path: platform/{{appName}}
+        path: platform/{{appName}}/overlays/local
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
