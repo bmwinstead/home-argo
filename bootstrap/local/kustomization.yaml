@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../platform/01-cert-manager/overlays/local
-  - ../../platform/02-ingress-nginx/overlays/local
-  - ../../platform/03-argo/overlays/local
-  - ../../platform/04-applications/local
+  - ../../platform/cert-manager/overlays/local
+  - ../../platform/ingress-nginx/overlays/local
+  - ../../platform/argo/overlays/local
+  - applicationset.yaml
