@@ -1,7 +1,7 @@
 version: '3'
 
 tasks:
-  certs:
+  gen-crt:
     desc: |
       Abuses mkcert to sign a local CA that can be used to issue arbitrary
       trusted TLS certs for development purposes.
@@ -13,9 +13,23 @@ tasks:
     status:
       - test -f rootCA-key.pem
       - test -f rootCA.pem
+  cert-secret:
+    desc: |
+      Makes a secret for cert-manager to use later. I wanted to use a secretGenerator
+      for this, but that would require putting the actual CA in git. Even encrypted that seemed unsafe.
+    dir: platform/cert-manager/overlays/local
+    cmds:
+      - cmd: kubectl create namespace cert-manager
+        ignore_error: true
+      - kubectl create secret tls root-secret
+        --cert=rootCA.pem 
+        --key=rootCA-key.pem 
+        --namespace=cert-manager
+    status:
+      - kubectl get secret -n cert-manager root-secret
 
   bootstrap:local:
-    deps: [ certs ]
+    deps: [ cert-secret ]
     desc: Bootstraps a local cluster. Currently hard-tied to orbstack
     env:
       AWS_PROFILE: AdministratorAccess

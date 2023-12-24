@@ -6,13 +6,3 @@ namespace: cert-manager
 resources:
   - ../../base
   - issuer.yaml
-
-secretGenerator:
-  - name: root-secret
-    namespace: cert-manager
-    files:
-      - tls.key=rootCA-key.pem
-      - tls.crt=rootCA.pem
-    type: "kubernetes.io/tls"
-    options:
-      disableNameSuffixHash: true
