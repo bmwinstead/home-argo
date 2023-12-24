@@ -11,10 +11,10 @@ spec:
       repoURL: https://github.com/bmwinstead/home-argo.git
       revision: develop
       directories:
-      - path: platform/*/overlays/local/
+      - path: platform/*/overlays/local
   template:
     metadata:
-      name: '{{.path.basename}}'
+      name: '{{ index .path.segments 1}}'
     spec:
       project: default
       source:
@@ -23,7 +23,7 @@ spec:
         path: '{{.path.path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.path.basename}}'
+        namespace: '{{ index .path.segments 1}}'
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
