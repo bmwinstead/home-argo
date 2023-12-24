@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - ../../platform/cert-manager/overlays/local
   - ../../platform/ingress-nginx/overlays/local
-  - ../../platform/argo/overlays/local
+  - ../../platform/argocd/overlays/local
   - applicationset.yaml
